@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Khushi Savaliya — People Experience</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --cream: #F6EFE4;
+      --cream-dark: #EDE3D3;
+      --ink: #1A1410;
+      --ink-light: #4A3F35;
+      --terra: #C05C2A;
+      --terra-light: #E07A48;
+      --gold: #B8963E;
+      --warm-gray: #8C7E72;
+      --serif: 'Cormorant Garamond', Georgia, serif;
+      --sans: 'DM Sans', system-ui, sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--cream);
+      color: var(--ink);
+      font-family: var(--sans);
+      font-weight: 300;
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* Custom cursor */
+    .cursor {
+      width: 12px; height: 12px;
+      background: var(--terra);
+      border-radius: 50%;
+      position: fixed;
+      top: 0; left: 0;
+      pointer-events: none;
+      z-index: 9999;
+      transition: transform 0.15s ease;
+      mix-blend-mode: multiply;
+    }
+    .cursor-ring {
+      width: 36px; height: 36px;
+      border: 1px solid var(--terra);
+      border-radius: 50%;
+      position: fixed;
+      top: 0; left: 0;
+      pointer-events: none;
+      z-index: 9998;
+      transition: transform 0.35s ease, width 0.2s, height 0.2s;
+      mix-blend-mode: multiply;
+    }
+
+    /* ---- GRAIN OVERLAY ---- */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+      opacity: 0.03;
+      pointer-events: none;
+      z-index: 9997;
+    }
+
+    /* ---- NAV ---- */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      padding: 24px 60px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+      mix-blend-mode: multiply;
+    }
+    .nav-logo {
+      font-family: var(--serif);
+      font-size: 18px;
+      font-weight: 400;
+      letter-spacing: 0.02em;
+      color: var(--ink);
+      text-decoration: none;
+    }
+    .nav-links {
+      display: flex;
+      gap: 40px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--terra); }
+
+    /* ---- HERO ---- */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-left {
+      padding: 140px 60px 80px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-eyebrow {
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--terra);
+      margin-bottom: 32px;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.2s forwards;
+    }
+
+    .hero-headline {
+      font-family: var(--serif);
+      font-size: clamp(52px, 5.5vw, 84px);
+      font-weight: 300;
+      line-height: 1.05;
+      letter-spacing: -0.01em;
+      margin-bottom: 32px;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.4s forwards;
+    }
+    .hero-headline em {
+      font-style: italic;
+      color: var(--terra);
+    }
+
+    .hero-sub {
+      font-size: 16px;
+      line-height: 1.75;
+      color: var(--ink-light);
+      max-width: 380px;
+      margin-bottom: 48px;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.6s forwards;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.8s forwards;
+    }
+    .btn-primary {
+      display: inline-block;
+      padding: 14px 32px;
+      background: var(--ink);
+      color: var(--cream);
+      font-family: var(--sans);
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .btn-primary:hover { background: var(--terra); transform: translateY(-2px); }
+    .btn-ghost {
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      text-decoration: none;
+      border-bottom: 1px solid var(--warm-gray);
+      padding-bottom: 2px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .btn-ghost:hover { color: var(--terra); border-color: var(--terra); }
+
+    .hero-right {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      gap: 16px;
+    }
+    .hero-right-bg {
+      position: absolute;
+      inset: 0;
+      background: var(--cream-dark);
+      clip-path: polygon(8% 0, 100% 0, 100% 100%, 0 100%);
+    }
+    .hero-stats {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+      width: 380px;
+      opacity: 0;
+      animation: fadeIn 1s 1s forwards;
+    }
+    .stat-card {
+      background: var(--cream);
+      padding: 32px 28px;
+      position: relative;
+      overflow: hidden;
+    }
+    .stat-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 0; height: 2px;
+      background: var(--terra);
+      transition: width 0.4s ease;
+    }
+    .stat-card:hover::after { width: 100%; }
+    .stat-num {
+      font-family: var(--serif);
+      font-size: 52px;
+      font-weight: 300;
+      color: var(--terra);
+      line-height: 1;
+      display: block;
+      margin-bottom: 8px;
+    }
+    .stat-label {
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--warm-gray);
+      line-height: 1.4;
+    }
+    .hero-scroll {
+      position: absolute;
+      bottom: 40px;
+      left: 60px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--warm-gray);
+      opacity: 0;
+      animation: fadeIn 1s 1.2s forwards;
+    }
+    .scroll-line {
+      width: 60px;
+      height: 1px;
+      background: var(--warm-gray);
+      position: relative;
+      overflow: hidden;
+    }
+    .scroll-line::after {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 100%; height: 100%;
+      background: var(--terra);
+      animation: slideRight 2s 2s infinite;
+    }
+
+    /* ---- DIVIDER ---- */
+    .section-divider {
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--cream-dark), transparent);
+      margin: 0 60px;
+    }
+
+    /* ---- ABOUT / THREAD ---- */
+    .about {
+      padding: 120px 60px;
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+    .about-label {
+      position: sticky;
+      top: 120px;
+    }
+    .section-tag {
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--terra);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .section-tag::before {
+      content: '';
+      display: inline-block;
+      width: 32px;
+      height: 1px;
+      background: var(--terra);
+    }
+    .about-title {
+      font-family: var(--serif);
+      font-size: 42px;
+      font-weight: 300;
+      line-height: 1.15;
+    }
+    .about-title em { font-style: italic; color: var(--terra); }
+    .about-body p {
+      font-size: 17px;
+      line-height: 1.85;
+      color: var(--ink-light);
+      margin-bottom: 24px;
+    }
+    .about-body p strong {
+      font-weight: 500;
+      color: var(--ink);
+    }
+    .pull-quote {
+      border-left: 2px solid var(--terra);
+      padding: 8px 0 8px 28px;
+      margin: 40px 0;
+    }
+    .pull-quote p {
+      font-family: var(--serif);
+      font-size: 26px;
+      font-weight: 300;
+      font-style: italic;
+      line-height: 1.4;
+      color: var(--ink) !important;
+      margin: 0 !important;
+    }
+
+    /* ---- STORIES ---- */
+    .stories {
+      padding: 0 60px 120px;
+    }
+    .stories-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 60px;
+    }
+    .stories-title {
+      font-family: var(--serif);
+      font-size: 48px;
+      font-weight: 300;
+      line-height: 1.1;
+    }
+    .stories-title em { font-style: italic; color: var(--terra); }
+    .stories-note {
+      font-size: 13px;
+      color: var(--warm-gray);
+      max-width: 220px;
+      text-align: right;
+      line-height: 1.6;
+    }
+    .stories-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+    }
+    .story-card {
+      background: var(--cream-dark);
+      padding: 48px 40px;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.3s;
+    }
+    .story-card:hover { background: var(--ink); }
+    .story-card:hover .story-icon,
+    .story-card:hover .story-title,
+    .story-card:hover .story-body,
+    .story-card:hover .story-insight-label { color: var(--cream); }
+    .story-card:hover .story-insight { background: var(--terra); color: var(--cream); }
+    .story-card:hover .story-num { color: rgba(255,255,255,0.06); }
+
+    .story-num {
+      font-family: var(--serif);
+      font-size: 120px;
+      font-weight: 300;
+      color: rgba(0,0,0,0.04);
+      position: absolute;
+      top: -20px;
+      right: -10px;
+      line-height: 1;
+      transition: color 0.3s;
+      user-select: none;
+    }
+    .story-icon {
+      font-size: 28px;
+      margin-bottom: 24px;
+      display: block;
+      transition: color 0.3s;
+    }
+    .story-title {
+      font-family: var(--serif);
+      font-size: 26px;
+      font-weight: 400;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      transition: color 0.3s;
+    }
+    .story-body {
+      font-size: 14px;
+      line-height: 1.8;
+      color: var(--ink-light);
+      margin-bottom: 28px;
+      transition: color 0.3s;
+    }
+    .story-insight-label {
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--warm-gray);
+      margin-bottom: 8px;
+      transition: color 0.3s;
+    }
+    .story-insight {
+      display: inline-block;
+      padding: 6px 14px;
+      background: var(--cream);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--terra);
+      transition: background 0.3s, color 0.3s;
+    }
+
+    /* ---- HOW I THINK ---- */
+    .process {
+      background: var(--ink);
+      padding: 120px 60px;
+      color: var(--cream);
+    }
+    .process-header {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      margin-bottom: 80px;
+      align-items: end;
+    }
+    .process-title {
+      font-family: var(--serif);
+      font-size: 52px;
+      font-weight: 300;
+      line-height: 1.1;
+    }
+    .process-title em { font-style: italic; color: var(--terra-light); }
+    .process-desc {
+      font-size: 15px;
+      line-height: 1.85;
+      color: rgba(246,239,228,0.6);
+    }
+    .process-steps {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 2px;
+    }
+    .process-step {
+      padding: 40px 28px;
+      border: 1px solid rgba(246,239,228,0.08);
+      position: relative;
+      transition: border-color 0.3s, background 0.3s;
+    }
+    .process-step:hover {
+      border-color: var(--terra);
+      background: rgba(192,92,42,0.08);
+    }
+    .step-num {
+      font-family: var(--serif);
+      font-size: 13px;
+      color: var(--terra-light);
+      margin-bottom: 20px;
+      display: block;
+    }
+    .step-name {
+      font-family: var(--serif);
+      font-size: 22px;
+      font-weight: 300;
+      margin-bottom: 12px;
+      color: var(--cream);
+    }
+    .step-desc {
+      font-size: 12px;
+      line-height: 1.7;
+      color: rgba(246,239,228,0.45);
+    }
+    .step-arrow {
+      position: absolute;
+      top: 50%;
+      right: -1px;
+      transform: translateY(-50%);
+      width: 1px;
+      height: 40px;
+      background: var(--terra);
+      opacity: 0.3;
+      display: none;
+    }
+
+    /* ---- EXPERIENCE ---- */
+    .experience {
+      padding: 120px 60px;
+    }
+    .experience-header {
+      margin-bottom: 80px;
+    }
+    .experience-title {
+      font-family: var(--serif);
+      font-size: 52px;
+      font-weight: 300;
+      line-height: 1.1;
+      margin-top: 16px;
+    }
+    .experience-title em { font-style: italic; color: var(--terra); }
+    .exp-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+    }
+    .exp-card {
+      background: var(--cream-dark);
+      padding: 48px 44px;
+      position: relative;
+      overflow: hidden;
+    }
+    .exp-card.featured {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      background: var(--cream-dark);
+    }
+    .exp-org {
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--terra);
+      margin-bottom: 12px;
+    }
+    .exp-role {
+      font-family: var(--serif);
+      font-size: 30px;
+      font-weight: 300;
+      line-height: 1.2;
+      margin-bottom: 20px;
+    }
+    .exp-duration {
+      font-size: 12px;
+      color: var(--warm-gray);
+      margin-bottom: 28px;
+      letter-spacing: 0.05em;
+    }
+    .exp-bullets {
+      list-style: none;
+    }
+    .exp-bullets li {
+      font-size: 14px;
+      line-height: 1.75;
+      color: var(--ink-light);
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+      padding-left: 20px;
+      position: relative;
+    }
+    .exp-bullets li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: var(--terra);
+      font-size: 12px;
+    }
+    .exp-tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 24px;
+    }
+    .exp-tag {
+      padding: 4px 12px;
+      border: 1px solid var(--cream-dark);
+      background: var(--cream);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+    }
+
+    /* ---- CULTURE MAP ---- */
+    .culture {
+      background: var(--cream-dark);
+      padding: 100px 60px;
+      text-align: center;
+    }
+    .culture-inner {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .culture-title {
+      font-family: var(--serif);
+      font-size: 52px;
+      font-weight: 300;
+      line-height: 1.1;
+      margin: 20px 0 32px;
+    }
+    .culture-title em { font-style: italic; color: var(--terra); }
+    .culture-subtitle {
+      font-size: 16px;
+      line-height: 1.8;
+      color: var(--ink-light);
+      margin-bottom: 60px;
+    }
+    .lang-grid {
+      display: flex;
+      justify-content: center;
+      gap: 2px;
+      flex-wrap: wrap;
+    }
+    .lang-card {
+      background: var(--cream);
+      padding: 28px 36px;
+      text-align: center;
+      min-width: 160px;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .lang-card:hover { background: var(--terra); transform: translateY(-4px); }
+    .lang-card:hover .lang-name, .lang-card:hover .lang-context { color: var(--cream); }
+    .lang-name {
+      font-family: var(--serif);
+      font-size: 24px;
+      font-weight: 400;
+      margin-bottom: 6px;
+      transition: color 0.2s;
+    }
+    .lang-context {
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--warm-gray);
+      transition: color 0.2s;
+    }
+
+    /* ---- CONTACT ---- */
+    .contact {
+      padding: 140px 60px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+    .contact-left .section-tag { margin-bottom: 24px; }
+    .contact-title {
+      font-family: var(--serif);
+      font-size: 60px;
+      font-weight: 300;
+      line-height: 1.05;
+      margin-bottom: 32px;
+    }
+    .contact-title em { font-style: italic; color: var(--terra); }
+    .contact-desc {
+      font-size: 16px;
+      line-height: 1.8;
+      color: var(--ink-light);
+      margin-bottom: 40px;
+    }
+    .contact-links {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .contact-link {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      text-decoration: none;
+      color: var(--ink);
+      font-size: 15px;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--cream-dark);
+      transition: color 0.2s, padding-left 0.2s;
+    }
+    .contact-link:hover { color: var(--terra); padding-left: 8px; }
+    .contact-link span { color: var(--warm-gray); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; width: 90px; flex-shrink: 0; }
+    .contact-right {
+      background: var(--ink);
+      padding: 60px 52px;
+      color: var(--cream);
+    }
+    .contact-right .section-tag { color: var(--terra-light); margin-bottom: 24px; }
+    .contact-right .section-tag::before { background: var(--terra-light); }
+    .applying-title {
+      font-family: var(--serif);
+      font-size: 32px;
+      font-weight: 300;
+      line-height: 1.3;
+      margin-bottom: 20px;
+    }
+    .applying-desc {
+      font-size: 14px;
+      line-height: 1.8;
+      color: rgba(246,239,228,0.6);
+      margin-bottom: 36px;
+    }
+    .download-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 28px;
+      background: var(--terra);
+      color: var(--cream);
+      text-decoration: none;
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .download-btn:hover { background: var(--terra-light); transform: translateY(-2px); }
+
+    /* ---- FOOTER ---- */
+    footer {
+      padding: 32px 60px;
+      border-top: 1px solid var(--cream-dark);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    footer p {
+      font-size: 12px;
+      color: var(--warm-gray);
+      letter-spacing: 0.05em;
+    }
+
+    /* ---- ANIMATIONS ---- */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes slideRight {
+      from { left: -100%; }
+      to { left: 100%; }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ---- RESPONSIVE ---- */
+    @media (max-width: 900px) {
+      nav { padding: 20px 28px; }
+      .hero { grid-template-columns: 1fr; }
+      .hero-right { display: none; }
+      .hero-left { padding: 120px 28px 80px; }
+      .about { grid-template-columns: 1fr; padding: 80px 28px; gap: 40px; }
+      .about-label { position: static; }
+      .stories, .experience, .contact { padding: 80px 28px; }
+      .process { padding: 80px 28px; }
+      .culture { padding: 80px 28px; }
+      .stories-grid, .exp-grid, .process-steps { grid-template-columns: 1fr; }
+      .exp-card.featured { grid-column: 1; display: block; }
+      .contact { grid-template-columns: 1fr; }
+      .stories-header { flex-direction: column; align-items: flex-start; gap: 16px; }
+      .stories-note { text-align: left; }
+      .process-header { grid-template-columns: 1fr; gap: 24px; }
+      footer { flex-direction: column; gap: 12px; text-align: center; }
+      .nav-links { display: none; }
+      .section-divider { margin: 0 28px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- NAV -->
+  <nav>
+    <a class="nav-logo" href="#">Khushi Savaliya</a>
+    <ul class="nav-links">
+      <li><a href="#stories">Stories</a></li>
+      <li><a href="#process">How I Think</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#contact">Say Hello</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-left">
+      <p class="hero-eyebrow">People Experience · Culture · Insight</p>
+      <h1 class="hero-headline">
+        I've never met<br/>a person I didn't<br/>want to <em>understand.</em>
+      </h1>
+      <p class="hero-sub">
+        I grew up across languages, states, and cultures. Today I build systems, design experiences, and listen deeply because understanding people brings me a lot of joy and I learn so much about myself!
+      </p>
+      <div class="hero-cta">
+        <a href="#stories" class="btn-primary">See my fun work</a>
+        <a href="#experience" class="btn-ghost">See my 'work' work</a>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-right-bg"></div>
+      <p style="position:relative;z-index:2;font-family:var(--serif);font-style:italic;font-size:15px;color:var(--warm-gray);text-align:center;margin-bottom:20px;opacity:0;animation:fadeIn 1s 0.9s forwards;">Everything needs to be quantified these days&nbsp;XD</p>
+      <div class="hero-stats">
+        <div class="stat-card">
+          <span class="stat-num">5</span>
+          <span class="stat-label">Languages spoken natively</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-num">14</span>
+          <span class="stat-label">People convinced through organic people research</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-num">1.2k+</span>
+          <span class="stat-label">Event attendees organized across universities</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-num">so many</span>
+          <span class="stat-label">Cultural contexts navigated daily</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-scroll">
+      <div class="scroll-line"></div>
+      scroll
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ABOUT -->
+  <section class="about" id="about">
+    <div class="about-label reveal">
+      <div class="section-tag">The Thread</div>
+      <h2 class="about-title">Why people<br/>are my <em>data.</em></h2>
+    </div>
+    <div class="about-body reveal">
+      <p>
+        My parents speak Gujarati (a language from Gujarat, India). I grew up in Nagpur (a city in Maharashtra, India), so I learned Marathi (a language from Maharashtra, India) and Hindi (a language from India). School was in English. By the time I was ten, I had learned something most people spend careers chasing: <strong>every person carries an entire world of context inside them</strong> — and if you listen carefully enough, you can understand it.
+      </p>
+      <p>
+        That instinct has never left me. Now pursuing my Master's at Santa Clara University, I work daily alongside colleagues the US, China, India and across the world - and I find myself doing the same thing I've always done. Watching, translating, connecting dots, and quietly designing better experiences for the people around me.
+      </p>
+      <div class="pull-quote">
+        <p>"I don't just observe people. I build tools to serve them, design programs to delight them, and generate insights that help organizations understand them better."</p>
+      </div>
+      <p>
+        At the Office of the Provost at SCU, I've automated workflows that used to take hours and sometimes days, rebuilt web experiences for the Office of the Provost at SCU, and designed engagement strategies based on who walks through the door and what they actually need. <strong>That instinct — to look, to listen, to act — is what I'd bring to a People Experience role.</strong>
+      </p>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- STORIES -->
+  <section class="stories" id="stories">
+    <div class="stories-header reveal">
+      <h2 class="stories-title">Three times I did<br/><em>people analytics</em><br/>without knowing it.</h2>
+      <p class="stories-note">Each story is a case study in listening, pattern recognition, and human insight.</p>
+    </div>
+    <div class="stories-grid">
+
+      <div class="story-card reveal">
+        <span class="story-num">1</span>
+        <span class="story-icon">🥿</span>
+        <h3 class="story-title">The Shoe Research</h3>
+        <p class="story-body">
+          I noticed something was off with mainstream shoe marketing. So I spent months studying biomechanics, physics, psychology, and consumer behavior — bought five different "best" pairs, tested them empirically, documented my findings, and ultimately convinced 14 people to rethink their footwear. All organically. Zero authority. Just rigorous, human-centered research and the ability to communicate findings to different audiences. Would love to discuss more and maybe I can convince you to rethink your footwear too!
+        </p>
+        <div class="story-insight-label">What this really is</div>
+        <span class="story-insight">People Analytics → Behavior Change</span>
+      </div>
+
+      <div class="story-card reveal">
+        <span class="story-num">2</span>
+        <span class="story-icon">🎨</span>
+        <h3 class="story-title">Marketing a Friend's Art</h3>
+        <p class="story-body">
+          A friend needed to sell her paintings. I researched her art style, identified her ideal buyer persona, studied what resonates with different collector types, and mediated between her and buyers — translating her artistic language into something buyers felt emotionally connected to. Sales happened. Relationships were built. No ads, no budget.
+        </p>
+        <div class="story-insight-label">What this really is</div>
+        <span class="story-insight">Audience Research → Experience Design</span>
+      </div>
+
+      <div class="story-card reveal">
+        <span class="story-num">3</span>
+        <span class="story-icon">🏌️</span>
+        <h3 class="story-title">Grandparents Week at BroncoStore</h3>
+        <p class="story-body">
+          Working retail at SCU's BroncoStore, I noticed that Grandparents Week brought an older, more affluent audience than usual. I connected the dots — private university, wealthy families, grandparents with discretionary income — and proactively suggested we stock premium Peter Millar golf shirts on mannequin displays. The recommendation came from audience observation, not a brief.
+        </p>
+        <div class="story-insight-label">What this really is</div>
+        <span class="story-insight">Employee Insight → Program Recommendation</span>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- HOW I THINK -->
+  <section class="process" id="process">
+    <div class="process-header reveal">
+      <h2 class="process-title">How I turn<br/>observation into<br/><em>insight.</em></h2>
+      <p class="process-desc">
+        Whether I'm researching shoes, designing a web page, or automating a workflow — I follow the same instinctive loop. It's the same loop that makes a great people analytics function work.
+      </p>
+    </div>
+    <div class="process-steps">
+      <div class="process-step reveal">
+        <span class="step-num">01</span>
+        <div class="step-name">Observe</div>
+        <p class="step-desc">Something feels off, or an opportunity looks obvious when others miss it. I notice.</p>
+      </div>
+      <div class="process-step reveal">
+        <span class="step-num">02</span>
+        <div class="step-name">Question</div>
+        <p class="step-desc">I leave no room for assumptions. I define what I know vs. what I'm inferring. Actual critical thinking</p>
+      </div>
+      <div class="process-step reveal">
+        <span class="step-num">03</span>
+        <div class="step-name">Research</div>
+        <p class="step-desc">Deep dives across disciplines — I use AI tools, primary sources, and domain experts. Also, I am actively working as a RA, would love to discuss more if it is relavant later.</p>
+      </div>
+      <div class="process-step reveal">
+        <span class="step-num">04</span>
+        <div class="step-name">Test</div>
+        <p class="step-desc">Empirically. I try things, document results, and talk to people for real evidence.</p>
+      </div>
+      <div class="process-step reveal">
+        <span class="step-num">05</span>
+        <div class="step-name">Synthesize</div>
+        <p class="step-desc">Patterns emerge. I distill complexity into something clear, actionable, human.</p>
+      </div>
+      <div class="process-step reveal">
+        <span class="step-num">06</span>
+        <div class="step-name">Share</div>
+        <p class="step-desc">I communicate findings differently for different audiences. Always with empathy.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section class="experience" id="experience">
+    <div class="experience-header reveal">
+      <div class="section-tag">Experience</div>
+      <h2 class="experience-title">Where I've <em>listened,<br/>built,</em> and made things better.</h2>
+    </div>
+    <div class="exp-grid">
+
+      <div class="exp-card featured reveal">
+        <div>
+          <p class="exp-org">Office of the Provost · Santa Clara University</p>
+          <h3 class="exp-role">Student Automation & Technical Assistant</h3>
+          <p class="exp-duration">May 2025 – Present · Part-time </p>
+          <ul class="exp-bullets">
+            <li>Automated faculty letter generation pipeline — Excel as database, Python on Colab for file renaming, YAML for automated sending and tracking — eliminating hours of manual effort per cycle</li>
+            <li>Designed and built new faculty & events web pages, improving information architecture and user experience in T4 CMS</li>
+            <li>Created Gratitude Month engagement strategy — segmented card and sticker distribution across campus departments based on student foot traffic type and volume</li>
+            <li>Extended cross-departmental support to SCU Writing Center and other teams, resolving web publishing issues and updating faculty profiles proactively</li>
+            <li>Built an on-campus housing research tool using LLM API + MCP tooling, surfacing budget-filtered, distance-ranked options for senior leadership</li>
+          </ul>
+        </div>
+        <div>
+          <p class="exp-org">Working with</p>
+          <ul class="exp-bullets" style="margin-bottom:24px;">
+            <li><a href="https://www.scu.edu/phonebook/11011/Becker-Sheryl"><strong>Sheryl Becker</strong></a> — Office operations, inventory, and engagement logistics</li>
+            <li><a href="https://www.linkedin.com/in/melissa-mcalexander/"><strong>Dr. Melissa McAlexander</strong></a>  — Web projects, university research synthesis, strategic web content</li>
+            <li><a href="https://www.scu.edu/provost/faculty-affairs/contact-us/laurene-skinner/"><strong>Laurene Skinner</strong></a> — Automation pipelines, file systems, technical tools</li>
+            <li><a href="https://www.scu.edu/phonebook/22950/Gu-Qi"><strong>Xi Gu</strong> </a>— Cross-cultural communication, relationship building</li>
+          </ul>
+          <div class="exp-tag-row">
+            <span class="exp-tag">Python</span>
+            <span class="exp-tag">T4 CMS</span>
+            <span class="exp-tag">MS EXCEL</span>
+            <span class="exp-tag">MS WORD</span>
+            <span class="exp-tag">LLM / MCP</span>
+            <span class="exp-tag">Engagement Design</span>
+            <span class="exp-tag">Web UX</span>
+            <span class="exp-tag">Organization</span>
+            
+          </div>
+        </div>
+      </div>
+
+      <div class="exp-card reveal">
+        <p class="exp-org">BroncoStore (Barnes & Noble) · SCU</p>
+        <h3 class="exp-role">Retail Associate</h3>
+        <p class="exp-duration">~1 year · On-Campus</p>
+        <ul class="exp-bullets">
+          <li>Identified Grandparents Week as a high-value engagement moment and recommended premium merchandising strategy — Peter Millar golf shirts, mannequin displays — based on audience observation</li>
+          <li>Managed books, merchandise, and campus store operations serving students, faculty, and campus visitors across high-traffic seasons</li>
+        </ul>
+        <div class="exp-tag-row">
+          <span class="exp-tag">Audience Insight</span>
+          <span class="exp-tag">Merchandising</span>
+          <span class="exp-tag">Retail Operations</span>
+        </div>
+      </div>
+
+      <div class="exp-card reveal">
+        <p class="exp-org">GeeksForGeeks Chapter · Undergrad</p>
+        <h3 class="exp-role">Chapter Co-Founder & Organizer</h3>
+        <p class="exp-duration">Undergrad · India</p>
+        <ul class="exp-bullets">
+          <li>Founded and led a GFG chapter, organizing hackathons and events for 1,200+ students across multiple universities</li>
+          <li>Managed sponsor relationships — pitched value to companies, delivered co-branded event experiences, and reported outcomes</li>
+          <li>Grew social media presence by deeply understanding student audience personas and tailoring content accordingly</li>
+        </ul>
+        <div class="exp-tag-row">
+          <span class="exp-tag">Event Programming</span>
+          <span class="exp-tag">Sponsor Relations</span>
+          <span class="exp-tag">Community Building</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CULTURE -->
+  <section class="culture" id="culture">
+    <div class="culture-inner">
+      <div class="section-tag" style="justify-content:center; margin-bottom:16px;">Cultural Fluency</div>
+      <h2 class="culture-title">Five languages.<br/><em>One instinct.</em></h2>
+      <p class="culture-subtitle">
+        I grew up navigating between worlds — and learned that the space between cultures is where the most important human insights live. Language is not the only way to distinguish between cultures, but it is one of the significant ways. Knowing multiple languages signals higher <b>cognitive flexibility </b> and <b>fluid intelligence</b> (says research!)
+      </p>
+      <div class="lang-grid">
+        <div class="lang-card reveal">
+          <p class="lang-name">Gujarati</p>
+          <p class="lang-context">At home · Heritage</p>
+        </div>
+        <div class="lang-card reveal">
+          <p class="lang-name">Hindi</p>
+          <p class="lang-context">Nagpur · India</p>
+        </div>
+        <div class="lang-card reveal">
+          <p class="lang-name">Sanskrit</p>
+          <p class="lang-context">Nationally Certified via RSKS India · India</p>
+        </div>
+        <div class="lang-card reveal">
+          <p class="lang-name">Marathi</p>
+          <p class="lang-context">Nagpur · Maharashtra</p>
+        </div>
+        <div class="lang-card reveal">
+          <p class="lang-name">English</p>
+          <p class="lang-context">Education · US · Work</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact" id="contact">
+    <div class="contact-left reveal">
+      <div class="section-tag">Say Hello</div>
+      <h2 class="contact-title">Let's talk<br/><em>people.</em></h2>
+      <p class="contact-desc">
+        I'm applying for the People Experience & Employee Insights Internship at Tapestry. If you'd like to talk — about the role, about people, about anything — I'd genuinely love to hear from you.
+      </p>
+      <div class="contact-links">
+        <a href="mailto:khushisavaliya22@gmail.com" class="contact-link">
+          <span>Email</span>
+          khushisavaliya22@gmail.com
+        </a>
+        <a href="https://www.linkedin.com/in/khushi-savaliya/" target="_blank" class="contact-link">
+          <span>LinkedIn</span>
+          linkedin.com/in/khushi-savaliya
+        </a>
+        <a href="https://www.scu.edu" class="contact-link">
+          <span>Location</span>
+          Santa Clara, CA but I'm open to relocating any location in the US for the right role and team!
+        </a>
+      </div>
+    </div>
+    <div class="contact-right reveal">
+      <div class="section-tag">Application</div>
+      <h3 class="applying-title">This is my application for - 2026 People Experience and Employee Insights Internship (Tapestry)</h3>
+      <p class="applying-desc">
+        I believe the intersection of human empathy and analytical rigor is exactly where people experience work lives — and it's exactly where I live too. I'd love to bring that to your team.
+        
+        And if you think there's another role that you believe fits me better, I'd love to discuss it!
+        Please don't ghost me :D
+      </p>
+      <a href="#contact" class="download-btn">
+        Contact me via email for scheduling a call or an offline meet! Looking forward to hearing from you!
+      </a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2026 Khushi Savaliya</p>
+    <p>Designed with so much love by me and Claude · Built for humans at X, The Moonshot Factory</p>
+  </footer>
+
+  <script>
+    // Custom cursor
+    const cursor = document.getElementById('cursor');
+    const ring = document.getElementById('cursorRing');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX; my = e.clientY;
+      cursor.style.transform = `translate(${mx - 6}px, ${my - 6}px)`;
+    });
+    function animateRing() {
+      rx += (mx - rx) * 0.12;
+      ry += (my - ry) * 0.12;
+      ring.style.transform = `translate(${rx - 18}px, ${ry - 18}px)`;
+      requestAnimationFrame(animateRing);
+    }
+    animateRing();
+
+    document.querySelectorAll('a, button').forEach(el => {
+      el.addEventListener('mouseenter', () => { ring.style.width = '56px'; ring.style.height = '56px'; ring.style.marginLeft = '-10px'; ring.style.marginTop = '-10px'; });
+      el.addEventListener('mouseleave', () => { ring.style.width = '36px'; ring.style.height = '36px'; ring.style.marginLeft = '0'; ring.style.marginTop = '0'; });
+    });
+
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('visible'), 80);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    reveals.forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>
